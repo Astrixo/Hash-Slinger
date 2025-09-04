@@ -16,6 +16,7 @@ ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384']
 BARRIER = "#########################################"
 LOWERLETTERS = "abcdefghijklmnopqrstuvwxyz"
 UPPERLETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MASK_FOUR_CHARS = "abc123"
 
 def pick_randomLine(file):
     with open(file, 'r', encoding='utf-8', errors='ignore') as awesomeFile:
@@ -97,6 +98,17 @@ def mask_three():
     print(f'Target Hash: {hash('md5', password)}')
     guess(password)
 
+def mask_four():
+    block("LEVEL FOUR")
+    print('General: Wow, you totally bruteforced that number. We have been using hashcat\'s prebuilt mask rules but did you know we can make our own?')
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is 10 characters long and is a random comination of abc123.')
+    print('Hint: Make a custom mask rule by doing "-1 abc123 ?1?1" (but with 10 of the ?1)')
+    password = [random.choice(MASK_FOUR_CHARS) for _ in range(10)]
+    password = "".join(str(i) for i in password)
+    print(f'Target Hash: {hash('md5', password)}')
+    guess(password)
+
 def hash(algo: str, s: str) -> str:
     try:
         return hashlib.new(algo, s.encode('utf-8')).hexdigest()
@@ -130,6 +142,7 @@ def mask_attacks():
     mask_one()
     mask_two()
     mask_three()
+    mask_four()
 
 def pick_module():
     block("Pick a Module")
