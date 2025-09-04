@@ -14,10 +14,13 @@ BLUETEXT = "\033[34m" #I just like this color
 RETURNDEFAULTCOLOR = "\033[0m" #Default term color
 ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384']
 BARRIER = "#########################################"
+LOWERLETTERS = "abcdefghijklmnopqrstuvwxyz"
+UPPERLETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MASK_FOUR_CHARS = "abc123"
 
-def pick_randomLine():
-    with open('./wordlists/rockyou.txt', 'r', encoding='utf-8', errors='ignore') as passwordList:
-        lines = passwordList.readlines()
+def pick_randomLine(file):
+    with open(file, 'r', encoding='utf-8', errors='ignore') as awesomeFile:
+        lines = awesomeFile.readlines()
         return random.choice(lines).strip()
 
 def dict_one():
@@ -25,9 +28,7 @@ def dict_one():
     print('General: You will be given an MD5 Hash of a password randomly picked from the RockYou wordlist.')
     print('Instructions: Enter the plaintext password associated with this MD5 Hash.')
     print('Hint: hashcat -a 0 -m 0 <hash.txt> /usr/share/wordlists/rockyou.txt')
-    print('Picking a password...')
-    password = pick_randomLine()
-    print('Password picked!')
+    password = pick_randomLine("./wordlists/smallRockYou.txt")
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
 
@@ -36,38 +37,77 @@ def dict_two():
     print('General: Good job on solving the MD5 Hash. This one is SHA256.')
     print('Instructions: Enter the plaintext password associated with this SHA256 Hash.')
     print('Hint: It will not be -m 0. It will be -m 1400')
-    print('Picking a password...')
-    password = pick_randomLine()
-    print('Password picked!')
+    password = pick_randomLine("./wordlists/smallRockYou.txt")
     print(f'Target Hash: {hash("sha256", password)}')
     guess(password)
 
 def dict_three():
     block("LEVEL THREE")
-    print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm')
+    print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm.')
     print('Instructions: Enter the plaintext password associated with this unkown Hash.')
     print('Hint: Run hashcat on the file with no arguments to find the hash type')
-    print('Picking a password...')
-    password = pick_randomLine()
-    print('Password picked!')
-    print(f'Target Hash: {hash("sha512", password)}')
+    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    hashType = random.choice(ROCKYOUHASHES)
+    print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
 
 def dict_four():
     block("LEVEL FOUR")
-    print('General: Now that you have figured out how to identify hashes. I\'m going to give you a random one.')
+    print('General: Now that you have figured out how to identify hashes. I\'m going to give you something new. Rules')
     print('Instructions: Enter the plaintext password associated with this random Hash.')
-    print('Picking a password...')
-    password = pick_randomLine()
-    print('Password picked!')
+    print('Hint: Run the same hashcat command you\'ve been running but add -r rules/nsa64.rule')
+    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    rule = pick_randomLine("./rules/nsa64.rule")
     hashType = random.choice(ROCKYOUHASHES)
     print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
 
 def dict_five():
     block("LEVEL FIVE")
-    print("General: Now we're moving onto something new! Mask attacks.")
+    print("How in the hell did you call this function???")
     print("More General: NVM")
+
+def mask_one():
+    block("LEVEL ONE")
+    print('General: Mask attacks are type of brute forcing. The idea is that you know some of the password and you are guessing the rest')
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is "CyberUnit" with 2 numbers added to the end.')
+    print("Hint: Run hashcat -a3 -m0 hash.txt CyberUnit?d?d")
+    password = "CyberUnit" + str(random.randint(0, 9)) + str(random.randint(0, 9))
+    print(f"Target Hash: {hash('md5', password)}")
+    guess(password)
+
+def mask_two():
+    block("LEVEL TWO")
+    print('General: Seems like you got the hang of it! Now let\'s add some letters!')
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is "CyberUnit" with two lowercase letters at the front and two uppercase letters at the end')
+    print('Hint: ?u for uppercase and ?l for lowercase')
+    password = random.choice(LOWERLETTERS) + random.choice(LOWERLETTERS) + "CyberUnit" + random.choice(UPPERLETTERS) + random.choice(UPPERLETTERS)
+    print(f"Target Hash: {hash('md5', password)}")
+    guess(password)
+
+def mask_three():
+    block("LEVEL THREE")
+    print('General: Nice! You\'re doing great! Mask attacks can also just brute force passwords.')
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is 7 random numbers.')
+    print('Hint: Your mask will look like ?d?d?d?d?d?d?d')
+    password = [random.randint(0, 9) for _ in range(7)]
+    password = "".join(str(i) for i in password)
+    print(f"Target Hash: {hash('md5', password)}")
+    guess(password)
+
+def mask_four():
+    block("LEVEL FOUR")
+    print('General: Wow, you totally bruteforced that number. We have been using hashcat\'s prebuilt mask rules but did you know we can make our own?')
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is 10 characters long and is a random comination of abc123.')
+    print('Hint: Make a custom mask rule by doing "-1 abc123 ?1?1" (but with 10 of the ?1)')
+    password = [random.choice(MASK_FOUR_CHARS) for _ in range(10)]
+    password = "".join(str(i) for i in password)
+    print(f"Target Hash: {hash('md5', password)}")
+    guess(password)
 
 def hash(algo: str, s: str) -> str:
     try:
@@ -89,36 +129,48 @@ def block(message):
     print(BARRIER)
 
 def dictionary_attacks():
-    print(f'##{BLUETEXT}{"Dictionary Attacks".center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
+    block("Dictionary Attacks")
     dict_one()
     dict_two()
     dict_three()
-    dict_four()
-    dict_five()
+    #dict_four()
+    #dict_five()
+    print("There will be a total of five levels but the last two are currently in development")
+
+def mask_attacks():
+    block("Mask Attacks")
+    mask_one()
+    mask_two()
+    mask_three()
+    mask_four()
 
 def pick_module():
-    print("What module would you like to work on?")
-    answers = ["1", "2", "3"]
-    print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks")
+    block("Pick a Module")
+    answers = ["1", "2", "3", "Q"]
+    print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks\n  [Q] Quit Program")
     answer = str(input("Module: "))
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Module: "))
-    if answer is "1":
+    if answer == "Q":
+        print("Exiting....")
+        return "q"
+    if answer == "1":
         dictionary_attacks()
-    elif answer is "2":
-        print("This functionality is not added yet rip")
+    elif answer == "2":
+        mask_attacks()
     else:
         print("This functionality is not added yet rip")
 
 def win():
-    print("Congratulation! This concludes the levels currently available!")
+    print("Congratulations! This concludes the levels currently available!")
     print("Play again for even more training.")
-
 
 def main():
     block("Preparing the Hash Slinger Training")
-    pick_module()
+    quit = ""
+    while quit != "q":
+        quit = pick_module()
     win()
 
 
