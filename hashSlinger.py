@@ -50,21 +50,18 @@ def dict_three():
     print('Picking a password...')
     password = pick_randomLine()
     print('Password picked!')
-    hashType = random.choice(ROCKYOUHASHES)
-    print(f'Target Hash: {hash(hashType, password)}')
+    print(f'Target Hash: {hash("sha512", password)}')
     guess(password)
 
-def level_four():
+def dict_four():
     block("LEVEL FOUR")
-    print('General: Now that you have figured out how to identify hashes. Im going to give you a random one.')
+    print('General: Now that you have figured out how to identify hashes. I\'m going to give you a random one.')
     print('Instructions: Enter the plaintext password associated with this random Hash.')
-    print('Hint: You can use the prebuilt ruleset in this repo.')
-    print('Command Format: hashcat -a0 -m0 </path/to/hashes.txt> wordlists/rockyou.txt -r rules/nsa64.rule')
     print('Picking a password...')
     password = pick_randomLine()
-    rule = pick_randomRule()
     print('Password picked!')
-    print(f'Target Hash: {hash("md5", password)}')
+    hashType = random.choice(ROCKYOUHASHES)
+    print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
 
 def dict_five():
@@ -93,11 +90,11 @@ def block(message):
 
 def dictionary_attacks():
     print(f'##{BLUETEXT}{"Dictionary Attacks".center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
-    level_one()
-    level_two()
-    level_three()
-    level_four()
-    level_five()
+    dict_one()
+    dict_two()
+    dict_three()
+    dict_four()
+    dict_five()
 
 def pick_module():
     print("What module would you like to work on?")
@@ -106,16 +103,13 @@ def pick_module():
     answer = str(input("Module: "))
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
-        answer = str(input("Guess: "))
+        answer = str(input("Module: "))
     if answer is "1":
         dictionary_attacks()
-    elif answer == "2":
+    elif answer is "2":
         print("This functionality is not added yet rip")
     else:
         print("This functionality is not added yet rip")
-
-def pick_randomRule():
-    print("workin")
 
 def win():
     print("Congratulation! This concludes the levels currently available!")
