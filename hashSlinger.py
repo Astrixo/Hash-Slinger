@@ -81,6 +81,7 @@ def mask_two():
     print('General: Seems like you got the hang of it! Now let\'s add some letters!')
     print('Instructions: Return the password associated with the provided md5 hash.')
     print('Password Format: The password is "CyberUnit" with two lowercase letters at the front and two uppercase letters at the end')
+    print('Hint: ?u for uppercase and ?l for lowercase')
     password = random.choice(LOWERLETTERS) + random.choice(LOWERLETTERS) + "CyberUnit" + random.choice(UPPERLETTERS) + random.choice(UPPERLETTERS)
     print(f'Target Hash: {hash('md5', password)}')
     guess(password)
@@ -116,6 +117,7 @@ def dictionary_attacks():
 def mask_attacks():
     block("Mask Attacks")
     mask_one()
+    mask_two()
 
 def pick_module():
     print("What module would you like to work on?")
