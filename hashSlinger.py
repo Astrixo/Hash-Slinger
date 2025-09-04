@@ -108,8 +108,8 @@ def mask_four():
     print('Password Format: The password is 10 characters long and is a random comination of abc123.')
     print('Hint: Make a custom mask rule by doing "-1 abc123 ?1?1" (but with 10 of the ?1)')
     password = [random.choice(MASK_FOUR_CHARS) for _ in range(10)]
-    print(f"Target Hash: {hash('md5', password)}")
     password = "".join(str(i) for i in password)
+    print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
 def mask_five():
@@ -119,8 +119,8 @@ def mask_five():
     print('Password Format: The password is a random combination of 8 uppercase, numbers, and special characters.')
     print('Hint: Make a custom mask using prexisitng masks by doing "-1 ?u?s?d"')
     password = [random.choice(MASK_FIVE_CHARS) for _ in range(8)]
-    print(f"Target Hash: {hash('md5', password)}")
     password = "".join(str(i) for i in password)
+    print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
 def hash(algo: str, s: str) -> str:
@@ -161,16 +161,13 @@ def mask_attacks():
 
 def pick_module():
     block("Pick a Module")
-    answers = ["1", "2", "3", "Q", "q"]
+    answers = ["1", "2", "3", "Q"]
     print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks\n  [Q] Quit Program")
     answer = str(input("Module: "))
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Module: "))
     if answer == "Q":
-        print("Exiting....")
-        return "q"
-    if answer == "q":
         print("Exiting....")
         return "q"
     if answer == "1":
