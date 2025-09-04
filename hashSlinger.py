@@ -132,7 +132,7 @@ def mask_attacks():
     mask_three()
 
 def pick_module():
-    block("What module would you like to work on?")
+    block("Pick a Module")
     answers = ["1", "2", "3", "Q"]
     print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks\n  [Q] Quit Program")
     answer = str(input("Module: "))
