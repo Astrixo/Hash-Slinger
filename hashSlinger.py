@@ -42,7 +42,7 @@ def dict_two():
 
 def dict_three():
     block("LEVEL THREE")
-    print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm')
+    print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm.')
     print('Instructions: Enter the plaintext password associated with this unkown Hash.')
     print('Hint: Run hashcat on the file with no arguments to find the hash type')
     password = pick_randomLine("./wordlists/smallRockYou.txt")
@@ -132,7 +132,7 @@ def mask_attacks():
     mask_three()
 
 def pick_module():
-    print("What module would you like to work on?")
+    block("What module would you like to work on?")
     answers = ["1", "2", "3", "Q"]
     print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks\n  [Q] Quit Program")
     answer = str(input("Module: "))
