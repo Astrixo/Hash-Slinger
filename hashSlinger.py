@@ -16,6 +16,7 @@ ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384']
 BARRIER = "#########################################"
 LOWERLETTERS = "abcdefghijklmnopqrstuvwxyz"
 UPPERLETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+quit = ""
 
 def pick_randomLine(file):
     with open(file, 'r', encoding='utf-8', errors='ignore') as awesomeFile:
@@ -133,12 +134,15 @@ def mask_attacks():
 
 def pick_module():
     print("What module would you like to work on?")
-    answers = ["1", "2", "3"]
-    print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks")
+    answers = ["1", "2", "3", "Q"]
+    print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks\n  [Q] Quit Program")
     answer = str(input("Module: "))
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Module: "))
+    if answer == "Q":
+        print("Exiting....")
+        return "q"
     if answer == "1":
         dictionary_attacks()
     elif answer == "2":
@@ -147,12 +151,13 @@ def pick_module():
         print("This functionality is not added yet rip")
 
 def win():
-    print("Congratulation! This concludes the levels currently available!")
+    print("Congratulations! This concludes the levels currently available!")
     print("Play again for even more training.")
 
 def main():
     block("Preparing the Hash Slinger Training")
-    pick_module()
+    while quit != "q":
+        quit = pick_module()
     win()
 
 
