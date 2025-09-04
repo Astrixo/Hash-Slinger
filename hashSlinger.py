@@ -16,7 +16,7 @@ ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384']
 BARRIER = "#########################################"
 
 def pick_randomLine():
-    with open('./wordlists/rockyou.txt', 'r', encoding='utf-8', errors='ignore') as passwordList:
+    with open('./wordlists/smallRockYou.txt', 'r', encoding='utf-8', errors='ignore') as passwordList:
         lines = passwordList.readlines()
         return random.choice(lines).strip()
 
@@ -50,18 +50,22 @@ def level_three():
     print('Picking a password...')
     password = pick_randomLine()
     print('Password picked!')
-    print(f'Target Hash: {hash("sha512", password)}')
+    hashType = random.choice(ROCKYOUHASHES)
+    print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
+
 
 def level_four():
     block("LEVEL FOUR")
-    print('General: Now that you have figured out how to identify hashes. Im going to give you a random one.')
+    print('General: Nice, seems like you got the hang of this. Now im going to add another layers. Rules.')
     print('Instructions: Enter the plaintext password associated with this random Hash.')
+    print('Hint: You can use the prebuilt ruleset in this repo.')
+    print('Command Format: hashcat -a0 -m0 </path/to/hashes.txt> wordlists/rockyou.txt -r rules/nsa64.rule')
     print('Picking a password...')
     password = pick_randomLine()
+    rule = pick_randomRule()
     print('Password picked!')
-    hashType = random.choice(ROCKYOUHASHES)
-    print(f'Target Hash: {hash(hashType, password)}')
+    print(f'Target Hash: {hash("md5", password)}')
     guess(password)
 
 def level_five():
@@ -89,7 +93,7 @@ def block(message):
     print(BARRIER)
 
 def dictionary_attacks():
-    print(f'##{BLUETEXT}{"Dictionary Attacks".center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
+    block("Dictionary Attacks")
     level_one()
     level_two()
     level_three()
@@ -104,12 +108,15 @@ def pick_module():
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Guess: "))
-    if answer is "1":
+    if answer == "1":
         dictionary_attacks()
-    elif answer is "2":
+    elif answer == "2":
         print("This functionality is not added yet rip")
     else:
         print("This functionality is not added yet rip")
+
+def pick_randomRule():
+    print("workin")
 
 def win():
     print("Congratulation! This concludes the levels currently available!")
