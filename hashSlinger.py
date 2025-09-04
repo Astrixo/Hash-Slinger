@@ -20,7 +20,7 @@ def pick_randomLine():
         lines = passwordList.readlines()
         return random.choice(lines).strip()
 
-def level_one():
+def dict_one():
     block("LEVEL ONE")
     print('General: You will be given an MD5 Hash of a password randomly picked from the RockYou wordlist.')
     print('Instructions: Enter the plaintext password associated with this MD5 Hash.')
@@ -31,7 +31,7 @@ def level_one():
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
 
-def level_two():
+def dict_two():
     block("LEVEL TWO")
     print('General: Good job on solving the MD5 Hash. This one is SHA256.')
     print('Instructions: Enter the plaintext password associated with this SHA256 Hash.')
@@ -42,11 +42,11 @@ def level_two():
     print(f'Target Hash: {hash("sha256", password)}')
     guess(password)
 
-def level_three():
+def dict_three():
     block("LEVEL THREE")
-    print('General: Nice! Now im going to give you a hash without telling you the algorithm')
+    print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm')
     print('Instructions: Enter the plaintext password associated with this unkown Hash.')
-    print('Hint: Use hashes.com hash identifier or run hashcat on the file with no arguments')
+    print('Hint: Run hashcat on the file with no arguments to find the hash type')
     print('Picking a password...')
     password = pick_randomLine()
     print('Password picked!')
@@ -54,10 +54,9 @@ def level_three():
     print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
 
-
 def level_four():
     block("LEVEL FOUR")
-    print('General: Nice, seems like you got the hang of this. Now im going to add another layers. Rules.')
+    print('General: Now that you have figured out how to identify hashes. Im going to give you a random one.')
     print('Instructions: Enter the plaintext password associated with this random Hash.')
     print('Hint: You can use the prebuilt ruleset in this repo.')
     print('Command Format: hashcat -a0 -m0 </path/to/hashes.txt> wordlists/rockyou.txt -r rules/nsa64.rule')
@@ -68,7 +67,7 @@ def level_four():
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
 
-def level_five():
+def dict_five():
     block("LEVEL FIVE")
     print("General: Now we're moving onto something new! Mask attacks.")
     print("More General: NVM")
@@ -93,7 +92,7 @@ def block(message):
     print(BARRIER)
 
 def dictionary_attacks():
-    block("Dictionary Attacks")
+    print(f'##{BLUETEXT}{"Dictionary Attacks".center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
     level_one()
     level_two()
     level_three()
@@ -104,11 +103,11 @@ def pick_module():
     print("What module would you like to work on?")
     answers = ["1", "2", "3"]
     print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks")
-    answer = str(input("Guess: "))
+    answer = str(input("Module: "))
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Guess: "))
-    if answer == "1":
+    if answer is "1":
         dictionary_attacks()
     elif answer == "2":
         print("This functionality is not added yet rip")
