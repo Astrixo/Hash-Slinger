@@ -14,7 +14,8 @@ BLUETEXT = "\033[34m" #I just like this color
 RETURNDEFAULTCOLOR = "\033[0m" #Default term color
 ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384']
 BARRIER = "#########################################"
-NUMBERS = '0123456789'
+LOWERLETTERS = "abcdefghijklmnopqrstuvwxyz"
+UPPERLETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def pick_randomLine(file):
     with open(file, 'r', encoding='utf-8', errors='ignore') as awesomeFile:
@@ -68,10 +69,19 @@ def dict_five():
 def mask_one():
     block("LEVEL ONE")
     print('General: Mask attacks are type of brute forcing. The idea is that you know some of the password and you are guessing the rest')
-    print('Instructions: Return the password associated with the provided md5 hash')
-    print('Hint: the password is "CyberUnit" with 2 numbers added to the end')
-    print("Hint 2: Run hashcat -a3 -m0 hash.txt CyberUnit?d?d")
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is "CyberUnit" with 2 numbers added to the end.')
+    print("Hint: Run hashcat -a3 -m0 hash.txt CyberUnit?d?d")
     password = "CyberUnit" + str(random.randint(0, 9)) + str(random.randint(0, 9))
+    print(f'Target Hash: {hash('md5', password)}')
+    guess(password)
+
+def mask_two():
+    block("LEVEL TWO")
+    print('General: Seems like you got the hang of it! Now let\'s add some letters!')
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is "CyberUnit" with two lowercase letters at the front and two uppercase letters at the end')
+    password = random.choice(LOWERLETTERS) + random.choice(LOWERLETTERS) + "CyberUnit" + random.choice(UPPERLETTERS) + random.choice(UPPERLETTERS)
     print(f'Target Hash: {hash('md5', password)}')
     guess(password)
 
