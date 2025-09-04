@@ -95,7 +95,7 @@ def mask_three():
     print('Hint: Your mask will look like ?d?d?d?d?d?d?d')
     password = [random.randint(0, 9) for _ in range(7)]
     password = "".join(str(i) for i in password)
-    print(f'Target Hash: {hash('md5', password)}')
+    print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
 def mask_four():
@@ -106,7 +106,7 @@ def mask_four():
     print('Hint: Make a custom mask rule by doing "-1 abc123 ?1?1" (but with 10 of the ?1)')
     password = [random.choice(MASK_FOUR_CHARS) for _ in range(10)]
     password = "".join(str(i) for i in password)
-    print(f'Target Hash: {hash('md5', password)}')
+    print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
 def hash(algo: str, s: str) -> str:
