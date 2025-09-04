@@ -146,13 +146,16 @@ def mask_attacks():
 
 def pick_module():
     block("Pick a Module")
-    answers = ["1", "2", "3", "Q"]
+    answers = ["1", "2", "3", "Q", "q"]
     print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks\n  [Q] Quit Program")
     answer = str(input("Module: "))
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Module: "))
     if answer == "Q":
+        print("Exiting....")
+        return "q"
+    if answer == "q":
         print("Exiting....")
         return "q"
     if answer == "1":
