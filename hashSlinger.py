@@ -16,7 +16,6 @@ ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384']
 BARRIER = "#########################################"
 LOWERLETTERS = "abcdefghijklmnopqrstuvwxyz"
 UPPERLETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-quit = ""
 
 def pick_randomLine(file):
     with open(file, 'r', encoding='utf-8', errors='ignore') as awesomeFile:
@@ -156,6 +155,7 @@ def win():
 
 def main():
     block("Preparing the Hash Slinger Training")
+    quit = ""
     while quit != "q":
         quit = pick_module()
     win()
