@@ -129,6 +129,7 @@ def mask_attacks():
     block("Mask Attacks")
     mask_one()
     mask_two()
+    mask_three()
 
 def pick_module():
     print("What module would you like to work on?")
