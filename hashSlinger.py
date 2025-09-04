@@ -89,7 +89,7 @@ def block(message):
     print(BARRIER)
 
 def dictionary_attacks():
-    print(f'##{BLUETEXT}{"Dictionary Attacks".center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
+    block("Dictionary Attacks")
     dict_one()
     dict_two()
     dict_three()
@@ -104,9 +104,9 @@ def pick_module():
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Module: "))
-    if answer is "1":
+    if answer == "1":
         dictionary_attacks()
-    elif answer is "2":
+    elif answer == "2":
         print("This functionality is not added yet rip")
     else:
         print("This functionality is not added yet rip")
