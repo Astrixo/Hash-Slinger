@@ -84,7 +84,7 @@ def mask_two():
     print('Password Format: The password is "CyberUnit" with two lowercase letters at the front and two uppercase letters at the end')
     print('Hint: ?u for uppercase and ?l for lowercase')
     password = random.choice(LOWERLETTERS) + random.choice(LOWERLETTERS) + "CyberUnit" + random.choice(UPPERLETTERS) + random.choice(UPPERLETTERS)
-    print(f'Target Hash: {hash('md5', password)}')
+    print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
 def mask_three():
