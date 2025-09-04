@@ -71,10 +71,10 @@ def mask_one():
     print('Instructions: Return the password associated with the provided md5 hash')
     print('Hint: the password is "CyberUnit" with 2 numbers added to the end')
     print("Hint 2: Run hashcat -a3 -m0 hash.txt CyberUnit?d?d")
-    password = pick_randomLine('./wordlists/smallRockYou.txt')
-    password = password + str(random.randint(0, 9)) + str(random.randint(0, 9))
+    password = "CyberUnit" + str(random.randint(0, 9)) + str(random.randint(0, 9))
     print(f'Target Hash: {hash('md5', password)}')
     guess(password)
+
 def hash(algo: str, s: str) -> str:
     try:
         return hashlib.new(algo, s.encode('utf-8')).hexdigest()
