@@ -86,6 +86,17 @@ def mask_two():
     print(f'Target Hash: {hash('md5', password)}')
     guess(password)
 
+def mask_three():
+    block("LEVEL THREE")
+    print('General: Nice! You\'re doing great! Mask attacks can also just brute force passwords.')
+    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Password Format: The password is 7 random numbers.')
+    print('Hint: Your mask will look like ?d?d?d?d?d?d?d')
+    password = [random.randint(0, 9) for _ in range(7)]
+    password = "".join(str(i) for i in password)
+    print(f'Target Hash: {hash('md5', password)}')
+    guess(password)
+
 def hash(algo: str, s: str) -> str:
     try:
         return hashlib.new(algo, s.encode('utf-8')).hexdigest()
