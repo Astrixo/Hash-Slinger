@@ -74,7 +74,7 @@ def mask_one():
     print('Password Format: The password is "CyberUnit" with 2 numbers added to the end.')
     print("Hint: Run hashcat -a3 -m0 hash.txt CyberUnit?d?d")
     password = "CyberUnit" + str(random.randint(0, 9)) + str(random.randint(0, 9))
-    print(f'Target Hash: {hash('md5', password)}')
+    print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
 def mask_two():
