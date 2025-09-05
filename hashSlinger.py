@@ -160,7 +160,7 @@ def block(message):
 def dictionary_attacks():
     block("Dictionary Attacks")
     print("Which level do you want to do?")
-    print("  [1] Level 1 - Filler\n  [2] Level 2 - Filler\n  [3] Level 3 - Filler\n  [4] Level 4 - Filler\n  [5] Level 5 - Filler\n [Q] Quit to main menu")
+    print("  [1] Level 1 - Filler\n  [2] Level 2 - Filler\n  [3] Level 3 - Filler\n  [4] Level 4 - Filler\n  [5] Level 5 - Filler\n  [Q] Quit to main menu")
     level = str(input("Level: ")).upper()
     while level not in dict_level_handlers:
         print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
@@ -168,7 +168,7 @@ def dictionary_attacks():
     handler = dict_level_handlers[level]
     handler()
     dictionary_attacks()
-    
+
 #Organizational function for mask attacks. (add pick levels?)
 def mask_attacks():
     block("Mask Attacks")
@@ -217,21 +217,21 @@ menu_handlers = {
 
 #Defines dictionary level handlers
 dict_level_handlers = {
-    1: dict_one,
-    2: dict_two,
-    3: dict_three,
-    4: dict_four,
-    5: dict_five,
+    "1": dict_one,
+    "2": dict_two,
+    "3": dict_three,
+    "4": dict_four,
+    "5": dict_five,
     "Q": quit_to_menu
 }
 
 #Defines mask level handlers
 mask_level_handlers = {
-    1: mask_one,
-    2: mask_two,
-    3: mask_three,
-    4: mask_four,
-    5: mask_five
+    "1": mask_one,
+    "2": mask_two,
+    "3": mask_three,
+    "4": mask_four,
+    "5": mask_five
 }
 
 #Prints a message after a user wins (cake ascii art here?)
