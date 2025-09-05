@@ -164,7 +164,7 @@ def block(message):
 def dictionary_attacks():
     block("Dictionary Attacks")
     print("Which level do you want to do?")
-    print("  [1] Level 1 - Filler\n  [2] Level 2 - Filler\n  [3] Level 3 - Filler\n  [4] Level 4 - Filler\n  [5] Level 5 - Filler\n  [Q] Quit to main menu")
+    print("  [1] Level 1 - Cracking MD5\n  [2] Level 2 - Cracking SHA256\n  [3] Level 3 - Random Hash Alg\n  [4] Level 4 - In Development\n  [5] Level 5 - In Development\n  [Q] Quit to main menu")
     level = str(input("Level: ")).upper()
     while level not in dict_level_handlers:
         print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
@@ -177,7 +177,7 @@ def dictionary_attacks():
 def mask_attacks():
     block("Mask Attacks")
     print("Which level do you want to do?")
-    print("  [1] Level 1 - Filler\n  [2] Level 2 - Filler\n  [3] Level 3 - Filler\n  [4] Level 4 - Filler\n  [5] Level 5 - Filler\n  [Q] Quit to main menu")
+    print("  [1] Level 1 - Basic Mask Attack\n  [2] Level 2 - Adding Letters to the Mask\n  [3] Level 3 - Brute Forcing Numbers\n  [4] Level 4 - Making Custom Mask\n  [5] Level 5 - Making Custom Mask with Prebuilt Mask\n  [Q] Quit to main menu")
     level = str(input("Level: ")).upper()
     while level not in mask_level_handlers:
         print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
