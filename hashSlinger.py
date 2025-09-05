@@ -148,6 +148,7 @@ def guess(password):
     guess = input("Guess: ")
     while guess != password:
         if guess.upper() == "EXIT":
+            print(REDTEXT + "[!] Exiting Level..." + RETURNDEFAULTCOLOR)
             return
         print(f'{REDTEXT}Nope, try again :){RETURNDEFAULTCOLOR}')
         guess = input("Guess: ")
@@ -191,8 +192,9 @@ def quitter():
     print("Feel free to reachout if you have any suggestions!")
     sys.exit(0)
 
+#Quits from module back to main menu
 def quit_to_menu():
-    print(REDTEXT + "Qutting to menu" + RETURNDEFAULTCOLOR)
+    print(REDTEXT + "[!] Quitting to Menu..." + RETURNDEFAULTCOLOR)
     pick_module()
 
 #Menu to pick what you want to work on.
