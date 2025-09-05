@@ -122,7 +122,7 @@ def mask_four():
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
-#Level five. Hey this doesnt work btw.
+#Level five. Makes 5character long strings comprised of digits, specical characters, and uppercase. 
 def mask_five():
     block("LEVEL FIVE")
     print("General: Good job making the custom mask! You can also make custom masks using hashcat's prebuilt masks.")
@@ -144,8 +144,11 @@ def hash(algo: str, s: str) -> str:
 
 #Loops until user inputs the correct password.
 def guess(password):
+    print(YELLOWTEXT + 'Type "exit" to quit the level.' + RETURNDEFAULTCOLOR)
     guess = input("Guess: ")
     while guess != password:
+        if guess.upper() == "EXIT":
+            return
         print(f'{REDTEXT}Nope, try again :){RETURNDEFAULTCOLOR}')
         guess = input("Guess: ")
     print(f'{GREENTEXT}Correct!{RETURNDEFAULTCOLOR}')
