@@ -156,7 +156,7 @@ def block(message):
     print(f'##{BLUETEXT}{message.center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
     print(BARRIER)
 
-#Organizational function for dictionary attacks.
+#Organizational function for dictionary attacks. (add pick levels?)
 def dictionary_attacks():
     block("Dictionary Attacks")
     dict_one()
@@ -166,7 +166,7 @@ def dictionary_attacks():
     #dict_five()
     print("There will be a total of five levels but the last two are currently in development")
 
-#Organizational function for mask attacks.
+#Organizational function for mask attacks. (add pick levels?)
 def mask_attacks():
     block("Mask Attacks")
     mask_one()
@@ -175,27 +175,34 @@ def mask_attacks():
     mask_four()
     mask_five()
 
+#Placeholder function for combinator attacks
+def combinator_attacks():
+    block("In development")
+
+#Function for quitting the program (just for organizational / readability)
+def quitter():
+    block("Quitting...")
+    print("Feel free to reachout if you have any suggestions!")
+    sys.exit(0)
+
 #Menu to pick what you want to work on.
 def pick_module():
     block("Pick a Module")
-    answers = ["1", "2", "3", "Q", "q"]
     print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
-    answer = str(input("Module: "))
-    while answer not in answers:
+    answer = str(input("Module: ")).upper()
+    while answer not in handlers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
-        answer = str(input("Module: "))
-    if answer == "Q":
-        print("Exiting....")
-        return "q"
-    if answer == "q":
-        print("Exiting....")
-        return "q"
-    if answer == "1":
-        dictionary_attacks()
-    elif answer == "2":
-        mask_attacks()
-    else:
-        print("This functionality is not added yet rip")
+        answer = str(input("Module: ")).upper()
+    handler = handlers[answer]
+    handler() 
+
+#Defines handlers for the menu to make picking functions ... better?
+handlers = {
+    "1": dictionary_attacks,
+    "2": mask_attacks,
+    "3": combinator_attacks,
+    "Q": quitter
+}
 
 #Prints a message after a user wins (cake ascii art here?)
 def win():
@@ -205,11 +212,8 @@ def win():
 #Main...
 def main():
     block("Preparing the Hash Slinger Training")
-    quit = ""
-    while quit != "q":
-        quit = pick_module()
-    win()
-
+    while True:
+        pick_module()
 
 
 if __name__ == '__main__':
