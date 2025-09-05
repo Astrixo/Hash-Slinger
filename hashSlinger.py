@@ -176,11 +176,15 @@ def dictionary_attacks():
 #Organizational function for mask attacks. (add pick levels?)
 def mask_attacks():
     block("Mask Attacks")
-    mask_one()
-    mask_two()
-    mask_three()
-    mask_four()
-    mask_five()
+    print("Which level do you want to do?")
+    print("  [1] Level 1 - Filler\n  [2] Level 2 - Filler\n  [3] Level 3 - Filler\n  [4] Level 4 - Filler\n  [5] Level 5 - Filler\n  [Q] Quit to main menu")
+    level = str(input("Level: ")).upper()
+    while level not in mask_level_handlers:
+        print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
+        level = str(input("Level: ")).upper()
+    handler = mask_level_handlers[level]
+    handler()
+    mask_attacks()
 
 #Placeholder function for combinator attacks
 def combinator_attacks():
