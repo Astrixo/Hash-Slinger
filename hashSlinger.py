@@ -75,8 +75,7 @@ def dict_five():
     block("LEVEL FIVE")
     print("How in the hell did you call this function???")
     print("More General: NVM")
-    win()
-
+    
 #Level one for mask attacks. MD5 hashes "CyberUnit" with two random numbers at the end.
 def mask_one():
     block("LEVEL ONE")
@@ -134,7 +133,6 @@ def mask_five():
     password = "".join(str(i) for i in password)
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
-    win()
 
 #Returns hash of provided string
 def hash(algo: str, s: str) -> str:
