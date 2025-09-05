@@ -159,12 +159,15 @@ def block(message):
 #Organizational function for dictionary attacks. (add pick levels?)
 def dictionary_attacks():
     block("Dictionary Attacks")
-    dict_one()
-    dict_two()
-    dict_three()
-    #dict_four()
-    #dict_five()
-    print("There will be a total of five levels but the last two are currently in development")
+    print("Which level do you want to do?")
+    print("  [1] Level 1 - Filler\n  [2] Level 2 - Filler\n  [3] Level 3 - Filler\n  [4] Level 4 - Filler\n  [5] Level 5 - Filler\n  [Q] Quit to main menu")
+    level = str(input("Level: ")).upper()
+    while level not in dict_level_handlers:
+        print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
+        level = str(input("Level: ")).upper()
+    handler = dict_level_handlers[level]
+    handler()
+    dictionary_attacks()
 
 #Organizational function for mask attacks. (add pick levels?)
 def mask_attacks():
@@ -181,27 +184,54 @@ def combinator_attacks():
 
 #Function for quitting the program (just for organizational / readability)
 def quitter():
-    block("Quitting...")
+    print(REDTEXT + "[!] Quitting..." + RETURNDEFAULTCOLOR)
     print("Feel free to reachout if you have any suggestions!")
     sys.exit(0)
+
+def quit_to_menu():
+    print(REDTEXT + "Qutting to menu" + RETURNDEFAULTCOLOR)
+    pick_module()
 
 #Menu to pick what you want to work on.
 def pick_module():
     block("Pick a Module")
     print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
     answer = str(input("Module: ")).upper()
-    while answer not in handlers:
+    while answer not in menu_handlers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
         answer = str(input("Module: ")).upper()
-    handler = handlers[answer]
+    handler = menu_handlers[answer]
     handler() 
 
+#Pick a level
+def pick_level():
+    print("Picking a level...")
+
 #Defines handlers to make menu... better?
-handlers = {
+menu_handlers = {
     "1": dictionary_attacks,
     "2": mask_attacks,
     "3": combinator_attacks,
     "Q": quitter
+}
+
+#Defines dictionary level handlers
+dict_level_handlers = {
+    "1": dict_one,
+    "2": dict_two,
+    "3": dict_three,
+    "4": dict_four,
+    "5": dict_five,
+    "Q": quit_to_menu
+}
+
+#Defines mask level handlers
+mask_level_handlers = {
+    "1": mask_one,
+    "2": mask_two,
+    "3": mask_three,
+    "4": mask_four,
+    "5": mask_five
 }
 
 #Prints a message after a user wins (cake ascii art here?)
