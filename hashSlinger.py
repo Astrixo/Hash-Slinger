@@ -127,9 +127,9 @@ def mask_five():
     block("LEVEL FIVE")
     print("General: Good job making the custom mask! You can also make custom masks using hashcat's prebuilt masks.")
     print('Instructions: Return the password associated with the provdied MD5 hash.')
-    print('Password Format: The password is a random combination of 8 uppercase, numbers, and special characters.')
+    print('Password Format: The password is a random combination of 5 uppercase, numbers, and special characters.')
     print('Hint: Make a custom mask using prexisitng masks by doing "-1 ?u?s?d"')
-    password = [random.choice(MASK_FIVE_CHARS) for _ in range(8)]
+    password = [random.choice(MASK_FIVE_CHARS) for _ in range(5)]
     password = "".join(str(i) for i in password)
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
@@ -196,7 +196,7 @@ def pick_module():
     handler = handlers[answer]
     handler() 
 
-#Defines handlers for the menu to make picking functions ... better?
+#Defines handlers to make menu... better?
 handlers = {
     "1": dictionary_attacks,
     "2": mask_attacks,
