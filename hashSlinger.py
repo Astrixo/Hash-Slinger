@@ -12,20 +12,22 @@ GREENTEXT = "\033[32m" #Success
 YELLOWTEXT = "\033[33m" #Errors :(
 BLUETEXT = "\033[34m" #I just like this color
 RETURNDEFAULTCOLOR = "\033[0m" #Default term color
-ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384']
-BARRIER = "#########################################"
-LOWERLETTERS = "abcdefghijklmnopqrstuvwxyz"
-UPPERLETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-DIGITS = "1234567890"
-MASK_FOUR_CHARS = "abc123"
-SPECIAL_CHARS = '!"#$%&()*+,-./:;<=>?@^_{|}~'
-MASK_FIVE_CHARS = UPPERLETTERS + DIGITS + SPECIAL_CHARS
+ROCKYOUHASHES = ['sha512', 'sha256', 'sha224', 'sha384'] #Random hashes for level 3 DICT
+BARRIER = "#########################################" # I don't want to type my barrier out for block more than once
+LOWERLETTERS = "abcdefghijklmnopqrstuvwxyz" #Lowercase letters for mask attacks
+UPPERLETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" #Uppercase letters for mask attacks
+DIGITS = "1234567890" #Digits for mask attacks
+MASK_FOUR_CHARS = "abc123" #Characters for mask level 4
+SPECIAL_CHARS = '!"#$%&()*+,-./:;<=>?@^_{|}~' #Special characters for mask attacks
+MASK_FIVE_CHARS = UPPERLETTERS + DIGITS + SPECIAL_CHARS # Characters for mask level 5
 
+#Picks random line from file (E.G Password or Rule)
 def pick_randomLine(file):
     with open(file, 'r', encoding='utf-8', errors='ignore') as awesomeFile:
         lines = awesomeFile.readlines()
         return random.choice(lines).strip()
 
+#Level one for dictionary attacks. MD5 hashes random line from smallRockYou.txt
 def dict_one():
     block("LEVEL ONE")
     print('General: You will be given an MD5 Hash of a password randomly picked from the RockYou wordlist.')
@@ -35,6 +37,7 @@ def dict_one():
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
 
+#Level two for dictionary attacks. Sha256 hashes random line from smallRockYou.txt
 def dict_two():
     block("LEVEL TWO")
     print('General: Good job on solving the MD5 Hash. This one is SHA256.')
@@ -44,6 +47,7 @@ def dict_two():
     print(f'Target Hash: {hash("sha256", password)}')
     guess(password)
 
+#Level three for dictionary attacks. Random hashes random line from smallRockYou.txt
 def dict_three():
     block("LEVEL THREE")
     print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm.')
@@ -54,6 +58,7 @@ def dict_three():
     print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
 
+#Level four for dictionary attacks. Theoretically supposed to apply random rule from nsa64.rule but like, it doesnt work.
 def dict_four():
     block("LEVEL FOUR")
     print('General: Now that you have figured out how to identify hashes. I\'m going to give you something new. Rules')
@@ -65,11 +70,13 @@ def dict_four():
     print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
 
+#Level five for dictionary attacks. Idk what this one is gonna do, prolly something with rules.
 def dict_five():
     block("LEVEL FIVE")
     print("How in the hell did you call this function???")
     print("More General: NVM")
 
+#Level one for mask attacks. MD5 hashes "CyberUnit" with two random numbers at the end.
 def mask_one():
     block("LEVEL ONE")
     print('General: Mask attacks are type of brute forcing. The idea is that you know some of the password and you are guessing the rest')
@@ -80,20 +87,22 @@ def mask_one():
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
+#Level two for mask attacks. MD5 hashes "CyberUnit" with two lowercase letters at the start and two uppercase letters at the end.
 def mask_two():
     block("LEVEL TWO")
     print('General: Seems like you got the hang of it! Now let\'s add some letters!')
-    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Instructions: Return the password associated with the provided MD5 hash.')
     print('Password Format: The password is "CyberUnit" with two lowercase letters at the front and two uppercase letters at the end')
     print('Hint: ?u for uppercase and ?l for lowercase')
     password = random.choice(LOWERLETTERS) + random.choice(LOWERLETTERS) + "CyberUnit" + random.choice(UPPERLETTERS) + random.choice(UPPERLETTERS)
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
+#Level three for mask attacks. MD5 hashes a string of 7 random numbers.
 def mask_three():
     block("LEVEL THREE")
     print('General: Nice! You\'re doing great! Mask attacks can also just brute force passwords.')
-    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Instructions: Return the password associated with the provided MD5 hash.')
     print('Password Format: The password is 7 random numbers.')
     print('Hint: Your mask will look like ?d?d?d?d?d?d?d')
     password = [random.randint(0, 9) for _ in range(7)]
@@ -101,10 +110,11 @@ def mask_three():
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
+#Level four for mask attacks. MD5 hashes 10 character long string comprised of abc123
 def mask_four():
     block("LEVEL FOUR")
     print('General: Wow, you totally bruteforced that number. We have been using hashcat\'s prebuilt mask rules but did you know we can make our own?')
-    print('Instructions: Return the password associated with the provided md5 hash.')
+    print('Instructions: Return the password associated with the provided MD5 hash.')
     print('Password Format: The password is 10 characters long and is a random comination of abc123.')
     print('Hint: Make a custom mask rule by doing "-1 abc123 ?1?1" (but with 10 of the ?1)')
     password = [random.choice(MASK_FOUR_CHARS) for _ in range(10)]
@@ -112,10 +122,11 @@ def mask_four():
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
+#Level five. Hey this doesnt work btw.
 def mask_five():
     block("LEVEL FIVE")
     print("General: Good job making the custom mask! You can also make custom masks using hashcat's prebuilt masks.")
-    print('Instructions: Return the password associated with the provdied md5 hash.')
+    print('Instructions: Return the password associated with the provdied MD5 hash.')
     print('Password Format: The password is a random combination of 8 uppercase, numbers, and special characters.')
     print('Hint: Make a custom mask using prexisitng masks by doing "-1 ?u?s?d"')
     password = [random.choice(MASK_FIVE_CHARS) for _ in range(8)]
@@ -123,6 +134,7 @@ def mask_five():
     print(f"Target Hash: {hash('md5', password)}")
     guess(password)
 
+#Returns hash of provided string
 def hash(algo: str, s: str) -> str:
     try:
         return hashlib.new(algo, s.encode('utf-8')).hexdigest()
@@ -130,6 +142,7 @@ def hash(algo: str, s: str) -> str:
         print(f"{YELLOWTEXT}[!] Unsupported algorithm: {algo}")
         sys.exit(1)
 
+#Loops until user inputs the correct password.
 def guess(password):
     guess = input("Guess: ")
     while guess != password:
@@ -137,11 +150,13 @@ def guess(password):
         guess = input("Guess: ")
     print(f'{GREENTEXT}Correct!{RETURNDEFAULTCOLOR}')
 
+#Prints Block message because I'm lazy and don't want to type it out each time.
 def block(message):
     print(BARRIER)
     print(f'##{BLUETEXT}{message.center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
     print(BARRIER)
 
+#Organizational function for dictionary attacks.
 def dictionary_attacks():
     block("Dictionary Attacks")
     dict_one()
@@ -151,6 +166,7 @@ def dictionary_attacks():
     #dict_five()
     print("There will be a total of five levels but the last two are currently in development")
 
+#Organizational function for mask attacks.
 def mask_attacks():
     block("Mask Attacks")
     mask_one()
@@ -159,10 +175,11 @@ def mask_attacks():
     mask_four()
     mask_five()
 
+#Menu to pick what you want to work on.
 def pick_module():
     block("Pick a Module")
     answers = ["1", "2", "3", "Q", "q"]
-    print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks\n  [Q] Quit Program")
+    print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
     answer = str(input("Module: "))
     while answer not in answers:
         print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
@@ -180,10 +197,12 @@ def pick_module():
     else:
         print("This functionality is not added yet rip")
 
+#Prints a message after a user wins (cake ascii art here?)
 def win():
     print("Congratulations! This concludes the levels currently available!")
     print("Play again for even more training.")
 
+#Main...
 def main():
     block("Preparing the Hash Slinger Training")
     quit = ""
