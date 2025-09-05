@@ -75,7 +75,7 @@ def dict_five():
     block("LEVEL FIVE")
     print("How in the hell did you call this function???")
     print("More General: NVM")
-    
+
 #Level one for mask attacks. MD5 hashes "CyberUnit" with two random numbers at the end.
 def mask_one():
     block("LEVEL ONE")
@@ -240,7 +240,8 @@ mask_level_handlers = {
     "2": mask_two,
     "3": mask_three,
     "4": mask_four,
-    "5": mask_five
+    "5": mask_five,
+    "Q": quitter
 }
 
 #Prints a message after a user wins
