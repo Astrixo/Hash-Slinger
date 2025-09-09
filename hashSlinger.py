@@ -20,7 +20,7 @@ DIGITS = "1234567890" #Digits for mask attacks
 MASK_FOUR_CHARS = "abc123" #Characters for mask level 4
 SPECIAL_CHARS = '!"#$%&()*+,-./:;<=>?@^_{|}~' #Special characters for mask attacks
 MASK_FIVE_CHARS = UPPERLETTERS + DIGITS + SPECIAL_CHARS # Characters for mask level 5
-TOTAL_POINTS = 0
+TOTAL_POINTS = 0 #Sets total points towards the "win()" funtion
 
 #Picks random line from file (E.G Password or Rule)
 def pick_randomLine(file):
@@ -37,6 +37,7 @@ def dict_one():
     password = pick_randomLine("./wordlists/smallRockYou.txt")
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
+    
 
 #Level two for dictionary attacks. Sha256 hashes random line from smallRockYou.txt
 def dict_two():
@@ -155,7 +156,7 @@ def guess(password):
         guess = input("Guess: ")
     print(f'{GREENTEXT}Correct!{RETURNDEFAULTCOLOR}')
 
-#Prints Block message because I'm lazy and don't want to type it out each time.
+#Prints Block message because I'm lazy (Lazy? nah dog, you just smart.) and don't want to type it out each time.
 def block(message):
     print(BARRIER)
     print(f'##{BLUETEXT}{message.center(len(BARRIER)-4)}{RETURNDEFAULTCOLOR}##')
@@ -204,7 +205,8 @@ def quit_to_menu():
 
 #Menu to pick what you want to work on.
 def pick_module():
-    while TOTAL_POINTS != 10:
+    #finished = check_modules()
+    #while finished == False: #tracks total points until all modules are complete. 
         block("Pick a Module")
         print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
         answer = str(input("Module: ")).upper()
@@ -213,6 +215,7 @@ def pick_module():
             answer = str(input("Module: ")).upper()
         handler = menu_handlers[answer]
         handler() 
+    #win()
 
 #Pick a level
 def pick_level():
