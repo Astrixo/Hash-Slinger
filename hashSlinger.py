@@ -20,6 +20,7 @@ DIGITS = "1234567890" #Digits for mask attacks
 MASK_FOUR_CHARS = "abc123" #Characters for mask level 4
 SPECIAL_CHARS = '!"#$%&()*+,-./:;<=>?@^_{|}~' #Special characters for mask attacks
 MASK_FIVE_CHARS = UPPERLETTERS + DIGITS + SPECIAL_CHARS # Characters for mask level 5
+TOTAL_POINTS = 0
 
 #Picks random line from file (E.G Password or Rule)
 def pick_randomLine(file):
@@ -203,14 +204,15 @@ def quit_to_menu():
 
 #Menu to pick what you want to work on.
 def pick_module():
-    block("Pick a Module")
-    print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
-    answer = str(input("Module: ")).upper()
-    while answer not in menu_handlers:
-        print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
+    while TOTAL_POINTS != 10:
+        block("Pick a Module")
+        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
         answer = str(input("Module: ")).upper()
-    handler = menu_handlers[answer]
-    handler() 
+        while answer not in menu_handlers:
+            print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
+            answer = str(input("Module: ")).upper()
+        handler = menu_handlers[answer]
+        handler() 
 
 #Pick a level
 def pick_level():
@@ -229,8 +231,8 @@ dict_level_handlers = {
     "1": dict_one,
     "2": dict_two,
     "3": dict_three,
-    "4": dict_four,
-    "5": dict_five,
+    "4": dictionary_attacks, #dict_four,
+    "5": dictionary_attacks, #dict_five,
     "Q": quit_to_menu
 }
 
@@ -304,3 +306,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# For level saving options, we can assign a value to each 
