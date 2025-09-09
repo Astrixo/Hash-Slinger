@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ####################################################
-## Author: Astrixo                                ##
+## Authors: Astrixo     GGMONEYFACE               ##
 ## Purpose: Train password cracking               ##
 ####################################################
 
@@ -37,7 +37,6 @@ def dict_one():
     password = pick_randomLine("./wordlists/smallRockYou.txt")
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
-    
 
 #Level two for dictionary attacks. Sha256 hashes random line from smallRockYou.txt
 def dict_two():
@@ -195,7 +194,7 @@ def combinator_attacks():
 #Function for quitting the program (just for organizational / readability)
 def quitter():
     print(REDTEXT + "[!] Quitting..." + RETURNDEFAULTCOLOR)
-    print("Feel free to reachout if you have any suggestions!")
+    print("Feel free to reachout if you have any suggestions! email:jpgobl0196@ung.edu")
     sys.exit(0)
 
 #Quits from module back to main menu
@@ -225,7 +224,7 @@ def pick_level():
 menu_handlers = {
     "1": dictionary_attacks,
     "2": mask_attacks,
-    "3": combinator_attacks,
+    "3": pick_module, #combinator_attacks,
     "Q": quitter
 }
 
