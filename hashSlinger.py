@@ -146,14 +146,18 @@ def hash(algo: str, s: str) -> str:
 
 #Loops until user inputs the correct password.
 def guess(password):
-    print(YELLOWTEXT + 'Type "exit" to quit the level.' + RETURNDEFAULTCOLOR)
+    print(YELLOWTEXT + 'Type "exit" to quit the level or "help" to display the help page.' + RETURNDEFAULTCOLOR)
     guess = input("Guess: ")
     while guess != password:
         if guess.upper() == "EXIT":
             print(REDTEXT + "[!] Exiting Level..." + RETURNDEFAULTCOLOR)
             return
-        print(f'{REDTEXT}Nope, try again :){RETURNDEFAULTCOLOR}')
-        guess = input("Guess: ")
+        elif guess.upper() == "HELP":
+            helppage()
+            guess = input("Guess: ")
+        else:
+            print(f'{REDTEXT}Nope, try again :){RETURNDEFAULTCOLOR}')
+            guess = input("Guess: ")
     print(f'{GREENTEXT}Correct!{RETURNDEFAULTCOLOR}')
 
 #Prints Block message because I'm lazy (Lazy? nah dog, you just smart.) and don't want to type it out each time.
@@ -166,7 +170,7 @@ def block(message):
 def dictionary_attacks():
     block("Dictionary Attacks")
     print("Which level do you want to do?")
-    print("  [1] Level 1 - Cracking MD5\n  [2] Level 2 - Cracking SHA256\n  [3] Level 3 - Random Hash Alg\n  [4] Level 4 - In Development\n  [5] Level 5 - In Development\n  [Q] Quit to main menu")
+    print("  [1] Level 1 - Cracking MD5\n  [2] Level 2 - Cracking SHA256\n  [3] Level 3 - Random Hash Alg\n  [4] Level 4 - In Development\n  [5] Level 5 - In Development\n  [H] Help Page\n  [Q] Quit to main menu")
     level = str(input("Level: ")).upper()
     while level not in dict_level_handlers:
         print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
@@ -179,7 +183,7 @@ def dictionary_attacks():
 def mask_attacks():
     block("Mask Attacks")
     print("Which level do you want to do?")
-    print("  [1] Level 1 - Basic Mask Attack\n  [2] Level 2 - Adding Letters to the Mask\n  [3] Level 3 - Brute Forcing Numbers\n  [4] Level 4 - Making Custom Mask\n  [5] Level 5 - Making Custom Mask with Prebuilt Mask\n  [Q] Quit to main menu")
+    print("  [1] Level 1 - Basic Mask Attack\n  [2] Level 2 - Adding Letters to the Mask\n  [3] Level 3 - Brute Forcing Numbers\n  [4] Level 4 - Making Custom Mask\n  [5] Level 5 - Making Custom Mask with Prebuilt Mask\n  [H] Help Page\n  [Q] Quit to main menu")
     level = str(input("Level: ")).upper()
     while level not in mask_level_handlers:
         print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
@@ -249,7 +253,7 @@ def pick_module():
     #finished = check_modules()
     #while finished == False: #tracks total points until all modules are complete. 
         block("Pick a Module")
-        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program\n  [H] Help Page")
+        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [H] Help Page\n  [Q] Quit Program")
         answer = str(input("Module: ")).upper()
         while answer not in menu_handlers:
             print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
@@ -278,7 +282,8 @@ dict_level_handlers = {
     "3": dict_three,
     "4": dictionary_attacks, #dict_four,
     "5": dictionary_attacks, #dict_five,
-    "Q": quit_to_menu
+    "Q": quit_to_menu,
+    "H": helppage
 }
 
 #Defines mask level handlers
@@ -288,7 +293,8 @@ mask_level_handlers = {
     "3": mask_three,
     "4": mask_four,
     "5": mask_five,
-    "Q": quitter
+    "Q": quit_to_menu,
+    "H": helppage
 }
 
 #Prints a message after a user wins
@@ -351,3 +357,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
