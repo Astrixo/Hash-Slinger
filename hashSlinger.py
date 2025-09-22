@@ -21,7 +21,7 @@ MASK_FOUR_CHARS = "abc123" #Characters for mask level 4
 SPECIAL_CHARS = '!"#$%&()*+,-./:;<=>?@^_{|}~' #Special characters for mask attacks
 MASK_FIVE_CHARS = UPPERLETTERS + DIGITS + SPECIAL_CHARS # Characters for mask level 5
 TOTAL_POINTS = 0 #Sets total points towards the "win()" funtion
-FILEPATH = "./helppage.txt" #Path to help page
+FILEPATH = "./resources/helppage.txt" #Path to help page
 
 #Picks random line from file (E.G Password or Rule)
 def pick_randomLine(file):
@@ -35,7 +35,7 @@ def dict_one():
     print('General: You will be given an MD5 Hash of a password randomly picked from the RockYou wordlist.')
     print('Instructions: Enter the plaintext password associated with this MD5 Hash.')
     print('Hint: hashcat -a 0 -m 0 <hash.txt> /usr/share/wordlists/rockyou.txt')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
 
@@ -45,7 +45,7 @@ def dict_two():
     print('General: Good job on solving the MD5 Hash. This one is SHA256.')
     print('Instructions: Enter the plaintext password associated with this SHA256 Hash.')
     print('Hint: It will not be -m 0. It will be -m 1400')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     print(f'Target Hash: {hash("sha256", password)}')
     guess(password)
 
@@ -55,7 +55,7 @@ def dict_three():
     print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm.')
     print('Instructions: Enter the plaintext password associated with this unkown Hash.')
     print('Hint: Run hashcat on the file with no arguments to find the hash type')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     hashType = random.choice(ROCKYOUHASHES)
     print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
@@ -66,7 +66,7 @@ def dict_four():
     print('General: Now that you have figured out how to identify hashes. I\'m going to give you something new. Rules')
     print('Instructions: Enter the plaintext password associated with this random Hash.')
     print('Hint: Run the same hashcat command you\'ve been running but add -r rules/nsa64.rule')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     rule = pick_randomLine("./rules/nsa64.rule")
     hashType = random.choice(ROCKYOUHASHES)
     print(f'Target Hash: {hash(hashType, password)}')
@@ -193,10 +193,11 @@ def combinator_attacks():
     block("In development")
 
 #Function for showing the help page
-def helppage():
-    """
-    Displays the content of a file one screen at a time.
-    """
+def helppage(): 
+    #FIXME I want to add a way to cut the file down for custom help pages on each module. 
+    #Might pull seperate helppage.txt files? Probably easiest way.
+
+    #Displays the content of a file one screen at a time.
     if not os.path.exists(FILEPATH):
         print(f"Error: The file '{FILEPATH}' does not exist.")
         return
@@ -248,7 +249,7 @@ def pick_module():
     #finished = check_modules()
     #while finished == False: #tracks total points until all modules are complete. 
         block("Pick a Module")
-        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program\n [H] Help Page")
+        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program\n  [H] Help Page")
         answer = str(input("Module: ")).upper()
         while answer not in menu_handlers:
             print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
@@ -350,6 +351,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-# For level saving options, we can assign a value to each 
