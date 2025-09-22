@@ -5,7 +5,7 @@
 ####################################################
 
 #Imports and globals
-import argparse, hashlib, random, sys
+import argparse, hashlib, random, sys, os
 
 REDTEXT = "\033[31m" #Wrong
 GREENTEXT = "\033[32m" #Success
@@ -21,6 +21,7 @@ MASK_FOUR_CHARS = "abc123" #Characters for mask level 4
 SPECIAL_CHARS = '!"#$%&()*+,-./:;<=>?@^_{|}~' #Special characters for mask attacks
 MASK_FIVE_CHARS = UPPERLETTERS + DIGITS + SPECIAL_CHARS # Characters for mask level 5
 TOTAL_POINTS = 0 #Sets total points towards the "win()" funtion
+FILEPATH = "./helppage.txt" #Path to help page
 
 #Picks random line from file (E.G Password or Rule)
 def pick_randomLine(file):
@@ -191,6 +192,46 @@ def mask_attacks():
 def combinator_attacks():
     block("In development")
 
+#Function for showing the help page
+def helppage():
+    """
+    Displays the content of a file one screen at a time.
+    """
+    if not os.path.exists(FILEPATH):
+        print(f"Error: The file '{FILEPATH}' does not exist.")
+        return
+
+    # Get the terminal size
+    try:
+        rows, _ = os.get_terminal_size()
+    except OSError:
+        # Fallback if terminal size can't be determined
+        rows = 24
+
+    with open(FILEPATH, 'r') as f:
+        lines = f.readlines()
+        current_line = 0
+        while current_line < len(lines):
+            for i in range(rows - 1): # Reserve one line for the prompt
+                if current_line + i < len(lines):
+                    sys.stdout.write(lines[current_line + i])
+            
+            # If we've reached the end of the file, we're done
+            if current_line + (rows - 1) >= len(lines):
+                print("\nEnd of file. Press any key to exit.")
+                input()
+                break
+
+            # Prompt and wait for user input
+            sys.stdout.write(f"--More-- (press ENTER to continue, 'q' to quit) ")
+            sys.stdout.flush()
+            
+            user_input = input()
+            if user_input.lower() == 'q':
+                break
+            
+            current_line += (rows - 1)
+
 #Function for quitting the program (just for organizational / readability)
 def quitter():
     print(REDTEXT + "[!] Quitting..." + RETURNDEFAULTCOLOR)
@@ -207,7 +248,7 @@ def pick_module():
     #finished = check_modules()
     #while finished == False: #tracks total points until all modules are complete. 
         block("Pick a Module")
-        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
+        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program\n [H] Help Page")
         answer = str(input("Module: ")).upper()
         while answer not in menu_handlers:
             print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
@@ -225,7 +266,8 @@ menu_handlers = {
     "1": dictionary_attacks,
     "2": mask_attacks,
     "3": pick_module, #combinator_attacks,
-    "Q": quitter
+    "Q": quitter,
+    "H": helppage
 }
 
 #Defines dictionary level handlers
