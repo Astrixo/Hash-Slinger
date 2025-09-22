@@ -5,7 +5,7 @@
 ####################################################
 
 #Imports and globals
-import argparse, hashlib, random, sys
+import argparse, hashlib, random, sys, os
 
 REDTEXT = "\033[31m" #Wrong
 GREENTEXT = "\033[32m" #Success
@@ -21,6 +21,7 @@ MASK_FOUR_CHARS = "abc123" #Characters for mask level 4
 SPECIAL_CHARS = '!"#$%&()*+,-./:;<=>?@^_{|}~' #Special characters for mask attacks
 MASK_FIVE_CHARS = UPPERLETTERS + DIGITS + SPECIAL_CHARS # Characters for mask level 5
 TOTAL_POINTS = 0 #Sets total points towards the "win()" funtion
+FILEPATH = "./resources/helppage.txt" #Path to help page
 
 #Picks random line from file (E.G Password or Rule)
 def pick_randomLine(file):
@@ -34,7 +35,7 @@ def dict_one():
     print('General: You will be given an MD5 Hash of a password randomly picked from the RockYou wordlist.')
     print('Instructions: Enter the plaintext password associated with this MD5 Hash.')
     print('Hint: hashcat -a 0 -m 0 <hash.txt> /usr/share/wordlists/rockyou.txt')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     print(f'Target Hash: {hash("md5", password)}')
     guess(password)
 
@@ -44,7 +45,7 @@ def dict_two():
     print('General: Good job on solving the MD5 Hash. This one is SHA256.')
     print('Instructions: Enter the plaintext password associated with this SHA256 Hash.')
     print('Hint: It will not be -m 0. It will be -m 1400')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     print(f'Target Hash: {hash("sha256", password)}')
     guess(password)
 
@@ -54,7 +55,7 @@ def dict_three():
     print('General: Nice! Now I\'m going to give you a hash without telling you the algorithm.')
     print('Instructions: Enter the plaintext password associated with this unkown Hash.')
     print('Hint: Run hashcat on the file with no arguments to find the hash type')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     hashType = random.choice(ROCKYOUHASHES)
     print(f'Target Hash: {hash(hashType, password)}')
     guess(password)
@@ -65,7 +66,7 @@ def dict_four():
     print('General: Now that you have figured out how to identify hashes. I\'m going to give you something new. Rules')
     print('Instructions: Enter the plaintext password associated with this random Hash.')
     print('Hint: Run the same hashcat command you\'ve been running but add -r rules/nsa64.rule')
-    password = pick_randomLine("./wordlists/smallRockYou.txt")
+    password = pick_randomLine("./resources/smallRockYou.txt")
     rule = pick_randomLine("./rules/nsa64.rule")
     hashType = random.choice(ROCKYOUHASHES)
     print(f'Target Hash: {hash(hashType, password)}')
@@ -145,14 +146,18 @@ def hash(algo: str, s: str) -> str:
 
 #Loops until user inputs the correct password.
 def guess(password):
-    print(YELLOWTEXT + 'Type "exit" to quit the level.' + RETURNDEFAULTCOLOR)
+    print(YELLOWTEXT + 'Type "exit" to quit the level or "help" to display the help page.' + RETURNDEFAULTCOLOR)
     guess = input("Guess: ")
     while guess != password:
         if guess.upper() == "EXIT":
             print(REDTEXT + "[!] Exiting Level..." + RETURNDEFAULTCOLOR)
             return
-        print(f'{REDTEXT}Nope, try again :){RETURNDEFAULTCOLOR}')
-        guess = input("Guess: ")
+        elif guess.upper() == "HELP":
+            helppage()
+            guess = input("Guess: ")
+        else:
+            print(f'{REDTEXT}Nope, try again :){RETURNDEFAULTCOLOR}')
+            guess = input("Guess: ")
     print(f'{GREENTEXT}Correct!{RETURNDEFAULTCOLOR}')
 
 #Prints Block message because I'm lazy (Lazy? nah dog, you just smart.) and don't want to type it out each time.
@@ -165,7 +170,7 @@ def block(message):
 def dictionary_attacks():
     block("Dictionary Attacks")
     print("Which level do you want to do?")
-    print("  [1] Level 1 - Cracking MD5\n  [2] Level 2 - Cracking SHA256\n  [3] Level 3 - Random Hash Alg\n  [4] Level 4 - In Development\n  [5] Level 5 - In Development\n  [Q] Quit to main menu")
+    print("  [1] Level 1 - Cracking MD5\n  [2] Level 2 - Cracking SHA256\n  [3] Level 3 - Random Hash Alg\n  [4] Level 4 - In Development\n  [5] Level 5 - In Development\n  [H] Help Page\n  [Q] Quit to main menu")
     level = str(input("Level: ")).upper()
     while level not in dict_level_handlers:
         print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
@@ -178,7 +183,7 @@ def dictionary_attacks():
 def mask_attacks():
     block("Mask Attacks")
     print("Which level do you want to do?")
-    print("  [1] Level 1 - Basic Mask Attack\n  [2] Level 2 - Adding Letters to the Mask\n  [3] Level 3 - Brute Forcing Numbers\n  [4] Level 4 - Making Custom Mask\n  [5] Level 5 - Making Custom Mask with Prebuilt Mask\n  [Q] Quit to main menu")
+    print("  [1] Level 1 - Basic Mask Attack\n  [2] Level 2 - Adding Letters to the Mask\n  [3] Level 3 - Brute Forcing Numbers\n  [4] Level 4 - Making Custom Mask\n  [5] Level 5 - Making Custom Mask with Prebuilt Mask\n  [H] Help Page\n  [Q] Quit to main menu")
     level = str(input("Level: ")).upper()
     while level not in mask_level_handlers:
         print(REDTEXT + "PICK A VALID LEVEL NUMBER" + RETURNDEFAULTCOLOR)
@@ -190,6 +195,47 @@ def mask_attacks():
 #Placeholder function for combinator attacks
 def combinator_attacks():
     block("In development")
+
+#Function for showing the help page
+def helppage(): 
+    #FIXME I want to add a way to cut the file down for custom help pages on each module. 
+    #Might pull seperate helppage.txt files? Probably easiest way.
+
+    #Displays the content of a file one screen at a time.
+    if not os.path.exists(FILEPATH):
+        print(f"Error: The file '{FILEPATH}' does not exist.")
+        return
+
+    # Get the terminal size
+    try:
+        rows, _ = os.get_terminal_size()
+    except OSError:
+        # Fallback if terminal size can't be determined
+        rows = 24
+
+    with open(FILEPATH, 'r') as f:
+        lines = f.readlines()
+        current_line = 0
+        while current_line < len(lines):
+            for i in range(rows - 1): # Reserve one line for the prompt
+                if current_line + i < len(lines):
+                    sys.stdout.write(lines[current_line + i])
+            
+            # If we've reached the end of the file, we're done
+            if current_line + (rows - 1) >= len(lines):
+                print("\nEnd of file. Press any key to exit.")
+                input()
+                break
+
+            # Prompt and wait for user input
+            sys.stdout.write(f"--More-- (press ENTER to continue, 'q' to quit) ")
+            sys.stdout.flush()
+            
+            user_input = input()
+            if user_input.lower() == 'q':
+                break
+            
+            current_line += (rows - 1)
 
 #Function for quitting the program (just for organizational / readability)
 def quitter():
@@ -207,7 +253,7 @@ def pick_module():
     #finished = check_modules()
     #while finished == False: #tracks total points until all modules are complete. 
         block("Pick a Module")
-        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [Q] Quit Program")
+        print("  [1] Dictionary Attacks\n  [2] Mask Attacks\n  [3] Combinator attacks (NOT ADDED)\n  [H] Help Page\n  [Q] Quit Program")
         answer = str(input("Module: ")).upper()
         while answer not in menu_handlers:
             print(f"{REDTEXT}THAT IS NOT A VALID ANSWER >:[{RETURNDEFAULTCOLOR}")
@@ -225,7 +271,8 @@ menu_handlers = {
     "1": dictionary_attacks,
     "2": mask_attacks,
     "3": pick_module, #combinator_attacks,
-    "Q": quitter
+    "Q": quitter,
+    "H": helppage
 }
 
 #Defines dictionary level handlers
@@ -235,7 +282,8 @@ dict_level_handlers = {
     "3": dict_three,
     "4": dictionary_attacks, #dict_four,
     "5": dictionary_attacks, #dict_five,
-    "Q": quit_to_menu
+    "Q": quit_to_menu,
+    "H": helppage
 }
 
 #Defines mask level handlers
@@ -245,7 +293,8 @@ mask_level_handlers = {
     "3": mask_three,
     "4": mask_four,
     "5": mask_five,
-    "Q": quitter
+    "Q": quit_to_menu,
+    "H": helppage
 }
 
 #Prints a message after a user wins
@@ -309,5 +358,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-# For level saving options, we can assign a value to each 
