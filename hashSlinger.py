@@ -5,7 +5,7 @@
 ####################################################
 
 #Imports and globals
-import argparse, hashlib, random, sys, os
+import argparse, hashlib, random, sys, os, shutil
 
 REDTEXT = "\033[31m" #Wrong
 GREENTEXT = "\033[32m" #Success
@@ -197,44 +197,54 @@ def combinator_attacks():
     block("In development")
 
 #Function for showing the help page
-def helppage(): 
-    #FIXME I want to add a way to cut the file down for custom help pages on each module. 
-    #Might pull seperate helppage.txt files? Probably easiest way.
-
-    #Displays the content of a file one screen at a time.
+def helppage():
+    # Displays the content of a file one screen at a time.
     if not os.path.exists(FILEPATH):
         print(f"Error: The file '{FILEPATH}' does not exist.")
         return
 
-    # Get the terminal size
+    # Get the terminal size (rows). Fallback to 12 rows if detection fails.
     try:
-        rows, _ = os.get_terminal_size()
-    except OSError:
-        # Fallback if terminal size can't be determined
-        rows = 24
+        rows = shutil.get_terminal_size(fallback=(80, 24)).lines
+        # keep a conservative page size so prompt fits
+        rows = max(6, rows)  # at least 6 lines
+    except Exception:
+        rows = 12
 
-    with open(FILEPATH, 'r') as f:
+    with open(FILEPATH, 'r', encoding='utf-8', errors='ignore') as f:
         lines = f.readlines()
         current_line = 0
         while current_line < len(lines):
-            for i in range(rows - 1): # Reserve one line for the prompt
-                if current_line + i < len(lines):
-                    sys.stdout.write(lines[current_line + i])
-            
-            # If we've reached the end of the file, we're done
+            # Print a page of lines (use write+flush so we control output)
+            for i in range(rows - 1):  # reserve one line for the prompt
+                idx = current_line + i
+                if idx < len(lines):
+                    sys.stdout.write(lines[idx])
+            sys.stdout.flush()
+
+            # If we've reached the end of the file, show message and exit
             if current_line + (rows - 1) >= len(lines):
-                print("\nEnd of file. Press any key to exit.")
+                print("\nEnd of file. Press ENTER to exit.")
                 input()
                 break
 
-            # Prompt and wait for user input
-            sys.stdout.write(f"--More-- (press ENTER to continue, 'q' to quit) ")
+            # Build prompt and show it (no newline)
+            pct = int((current_line / max(1, len(lines))) * 100)
+            prompt = f"--More-- ({pct}%) -- press ENTER to continue, 'q' to quit --"
+            sys.stdout.write(prompt)
             sys.stdout.flush()
-            
-            user_input = input()
+
+            user_input = input()  # user types, cursor moves to new line
+
+            # Move cursor up one line and clear that line so prompt disappears
+            # \x1b[1A -> move cursor up 1 line
+            # \x1b[2K -> clear entire line
+            sys.stdout.write('\x1b[1A' + '\x1b[2K')
+            sys.stdout.flush()
+
             if user_input.lower() == 'q':
                 break
-            
+
             current_line += (rows - 1)
 
 #Function for quitting the program (just for organizational / readability)
